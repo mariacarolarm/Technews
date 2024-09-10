@@ -1,5 +1,6 @@
 import requests
 import time
+from parsel import Selector
 
 
 URL_BASE = 'https://blog.betrybe.com/'
@@ -20,10 +21,12 @@ def fetch(URL_BASE):
         return None
 
 
-# Requisito 2
 def scrape_updates(html_content):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    selector = Selector(text=html_content)
+    news_urls = selector.css('.cs-overlay a::attr(href)').getall()
+    if news_urls:
+        return news_urls
+    return []
 
 
 # Requisito 3
